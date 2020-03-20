@@ -1,0 +1,82 @@
+﻿<div class="row py-4">
+    <div class="col-lg-6">
+        <button id="btn-novo" class="btn btn-primary" type="button">Novo</button>
+        <button id="btn-voltar" class="btn btn-primary" type="button">Voltar</button>        
+    </div>
+</div>
+
+<div id="ListagemMensageria">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-1"></div>
+        <form class="col-lg-9 navbar-form">
+            <div class="col-lg-9 form-group">
+                <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <div class="col-lg-3 form-group">
+                <button type="submit" class="btn btn-warning">Buscar</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-offset-2 col-md-6">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Nome</td>
+                    <td>Segmento</td>
+                    <td>Template</td>
+                    <td>Racf</td>
+                    <td>Data Cadastro</td>
+                    <td>Ativo</td>
+                    <td>#</td>
+                </tr>
+            </thead>
+            <tr ng-repeat="msg in mensagens track by $index">
+                <td>{{msg.Nome}}</td>
+                <td>{{msg.Segmento}}</td>
+                <td>{{msg.Template}}</td>
+                <td>{{msg.Racf}}</td>
+                <td>{{msg.DataCadastro.replace('/Date(','').replace(')/','') | date: 'dd/MM/yyyy'}}</td>
+                <td>{{msg.Ativo}}</td>
+                <td><button class="btn btn-sm btn-info" ng-click="editarMensageria(msg)">Editar</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div id="formMensageria" style="display:none">
+    <form name="mform" novalidate>
+        <div class="col-md-offset-2 col-md-8" ng-model="mensagem">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group col-md-4">
+                        <label for="Nome">Nome</label>
+                        <input class="form-control" id="Nome" name="Nome" value="mensagem.Nome" type="text"
+                               ng-model="mensagem.Nome" required />
+                        <span class="bg-danger" ng-if="mform.$submitted && mform.Nome.$error.required">Nome é obrigatorio</span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="Nome">Template</label>
+                        <select class="form-control" id="Template" name="Template" ng-model="mensagem.IdMensageriaTemplate" required>
+                            <option ng-repeat="temp in templates" value="{{temp.IdMensageriaTemplate}}">{{temp.Nome}}</option>
+                        </select>
+                        <span class="bg-danger" ng-if="mform.$submitted && mform.Template.$error.required">Template é obrigatoria</span>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-10">
+                            <label for="Mensagem">Mensagem</label>
+                            <textarea rows="3" cols="10" style="margin:0 0 0 0 !important;width:600px!important"
+                                      class="form-control"
+                                      id="Mensagem"
+                                      name="Mensagem"
+                                      value="mensagem.Mensagem"
+                                      ng-model="mensagem.Mensagem" required />
+                            <span class="bg-danger" ng-if="mform.$submitted && mform.Mensagem.$error.required">Mensagem é obrigatoria</span>
+                        </div>
+                    </div>
+                    <button id="btn-salvar" class="btn btn-primary" type="submit" ng-click="Create(mensagem,mform.$valid)">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

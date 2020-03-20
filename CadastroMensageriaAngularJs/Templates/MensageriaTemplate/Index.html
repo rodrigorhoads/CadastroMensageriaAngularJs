@@ -1,0 +1,76 @@
+﻿<div class="row py-4">
+    <div class="col-md-4">
+        <button id="btn-novo" class="float-right btn btn-primary" type="button">Novo</button>
+        <button id="btn-voltar" class="float-right btn btn-primary" type="button">Voltar</button>        
+    </div>
+</div>
+
+<div id="ListagemTemplate">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <form class="col-md-10 navbar-form">
+            <div class="col-md-4 form-group">
+                <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4 form-group">
+                <button type="submit" class="btn btn-warning">Buscar</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-offset-2 col-md-6">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Nome</td>
+                    <td>Caminho</td>
+                    <td>Racf</td>
+                    <td>Data Cadastro</td>
+                    <td>Ativo</td>
+                </tr>
+            </thead>
+            <tr ng-repeat="temp in templates">
+                <td>{{temp.Nome}}</td>
+                <td>{{temp.Caminho}}</td>
+                <td>{{temp.Racf}}</td>
+                <td>{{temp.DataCadastro.replace('/Date(','').replace(')/','') | date: 'dd/MM/yyyy'}}</td>
+                <td>{{temp.Ativo}}</td>
+                <td>
+                    <button class="btn btn-sm btn-info" ng-click="editarTemplate(temp)">Editar</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div id="formTemplate" style="display:none">
+    <form name="mForm" novalidate>
+        <div class="col-md-offset-2 col-md-8" ng-model="template">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group col-md-4">
+                        <label for="Nome">Nome</label>
+                        <input class="form-control" id="Nome" name="Nome" value="template.Nome" type="text"
+                               ng-model="template.Nome" required />
+                        <span class="bg-danger" ng-if="mForm.$submitted && mForm.Nome.$error.required">Template é obrigatoria</span>
+                    </div>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" value="template.Ativo" class="custom-control-input" ng-model="template.Ativo" name="Ativo" id="Ativo">
+                        <label class="custom-control-label" for="customSwitch1">Ativo</label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-10">
+                            <label for="Mensagem">Template</label>
+                            <div class="form-group">
+                                <input type="file" value="template.Caminho" valid-file name="file" upload="uploadFile(file)" ng-model="template.file" required/>
+                                <span class="bg-danger" ng-if="mForm.$submitted && mForm.file.$error.required">Template é obrigatoria</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-salvar" class="btn btn-primary" type="submit" ng-click="Create(template,mForm.$valid)">Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
